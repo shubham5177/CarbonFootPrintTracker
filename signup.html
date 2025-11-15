@@ -1,25 +1,149 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sign up — AI Carbon Footprint Tracker</title>
-    <link rel="stylesheet" href="css/style.css" />
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In | AI in Climate Change</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    </head>
 
 <body>
-    <main class="container auth-page">
-        <h1>Create account</h1>
-        <form id="signupForm">
-            <label>Name<input type="text" id="name" required></label>
-            <label>Email<input type="email" id="email" required></label>
-            <label>Password<input type="password" id="password" required></label>
-            <button type="submit">Sign up</button>
-        </form>
-        <p>Already have an account? <a href="login.html">Log in</a></p>
-    </main>
-    <script src="js/auth.js"></script>
+
+    <div class="auth-container">
+
+        <div class="info-section">
+            <h1>Harnessing AI to Combat Climate Change</h1>
+            <p>Join our community of innovators, researchers, and policymakers dedicated to finding sustainable
+                solutions for our planet.</p>
+            <ul>
+                <li>Access cutting-edge research</li>
+                <li>Collaborate on new projects</li>
+                <li>Network with industry experts</li>
+                <li>Be part of the solution</li>
+            </ul>
+        </div>
+
+        <div class="form-section">
+            <h2>Welcome Back!</h2>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email">
+                    <span class="error-message" id="email-error">Please enter a valid email.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password">
+                    <span class="password-toggle" id="toggle-password"><i class="fas fa-eye"></i></span>
+                    <span class="error-message" id="password-error">Password is required.</span>
+                </div>
+
+                <div class="forgot-password">
+                    <a href="#">Forgot Password?</a>
+                </div>
+
+                <button type="submit" id="login-button" class="form-button" disabled>Log In</button>
+            </form>
+
+            <div class="footer-links">
+                <p>Don't have an account? <a href="sign.html">Sign Up</a></p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Form Element Selection ---
+            const loginForm = document.getElementById('login-form');
+            const loginButton = document.getElementById('login-button');
+
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+
+            const emailError = document.getElementById('email-error');
+            const passwordError = document.getElementById('password-error');
+
+            const togglePassword = document.getElementById('toggle-password');
+
+            // --- Validation State ---
+            let isEmailValid = false;
+            let isPasswordValid = false;
+
+            // --- Helper: Toggle Password Visibility ---
+            togglePassword.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                togglePassword.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+            });
+
+            // --- Helper: Update Field State (Valid/Invalid) ---
+            function updateFieldState(inputEl, errorEl, isValid, message = '') {
+                if (isValid) {
+                    inputEl.classList.remove('invalid');
+                    inputEl.classList.add('valid');
+                    errorEl.style.display = 'none';
+                } else {
+                    inputEl.classList.remove('valid');
+                    inputEl.classList.add('invalid');
+                    errorEl.textContent = message;
+                    errorEl.style.display = 'block';
+                }
+            }
+
+            // --- Helper: Check Form Validity & Enable Button ---
+            function checkFormValidity() {
+                if (isEmailValid && isPasswordValid) {
+                    loginButton.disabled = false;
+                } else {
+                    loginButton.disabled = true;
+                }
+            }
+
+            // --- Validation Logic ---
+            emailInput.addEventListener('input', () => {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (emailRegex.test(emailInput.value)) {
+                    isEmailValid = true;
+                    updateFieldState(emailInput, emailError, true);
+                } else {
+                    isEmailValid = false;
+                    updateFieldState(emailInput, emailError, false, 'Please enter a valid email.');
+                }
+                checkFormValidity();
+            });
+
+            passwordInput.addEventListener('input', () => {
+                if (passwordInput.value.length > 0) {
+                    isPasswordValid = true;
+                    updateFieldState(passwordInput, passwordError, true);
+                } else {
+                    isPasswordValid = false;
+                    updateFieldState(passwordInput, passwordError, false, 'Password is required.');
+                }
+                checkFormValidity();
+            });
+
+            // --- Form Submission ---
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault(); // Stop actual submission for this demo
+
+                if (isEmailValid && isPasswordValid) {
+                    alert('Login successful! (Demo)');
+                    // In a real app, you would send this to a server
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>
